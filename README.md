@@ -6,9 +6,9 @@ prioritise patients.
 
 *Built as a learning project, with AI pair-programming support.*
 
-Built to learn and to show the full workflow — data, a baseline model, honest
-evaluation, threshold tuning, a model comparison, and an interactive demo —
-not to make clinical decisions.
+Built to learn and to show the full workflow, data, a baseline model, honest
+evaluation, threshold tuning, a model comparison, and an interactive demo.
+Not to make clinical decisions.
 
 > **Disclaimer — please read this first**
 >
@@ -22,12 +22,12 @@ not to make clinical decisions.
 ## The problem
 
 Emergency departments need to prioritise patients quickly. This demo asks a
-narrower, learnable version of that question: from 13 routine features —
+narrower, learnable version of that question: from 13 routine features;
 demographics, symptoms, resting vitals and labs, an exercise stress test and
-imaging — can a simple model flag patients who are likely to have heart
+imaging. So can a simple model flag patients who are likely to have heart
 disease, so they can be checked sooner?
 
-The answer it gives is a probability, not a diagnosis. A threshold turns that
+The result it gives is a probability, far from a diagnosis. A threshold turns that
 probability into a flag: above the threshold, "high priority, review urgently";
 below it, "lower priority".
 
@@ -57,7 +57,7 @@ below it, "lower priority".
 | `target` | Diagnosis: 0 = <50% diameter narrowing, 1–4 = >50% narrowing |
 
 Target counts: **0 = 164, 1 = 55, 2 = 36, 3 = 35, 4 = 13** (139 with disease
-in total). This project binarises the target — 0 vs 1–4 — because the UCI
+in total). This project binarises the target — 0 vs 1–4 because the UCI
 codebook formally defines only 0 vs >50% narrowing, and 1–4 have no precise
 formal mild/moderate table.
 
@@ -67,7 +67,7 @@ missing as `?`.
 **Limitations of the data:** anonymised patients already assessed at the
 Cleveland Clinic Foundation, not an ED population, not recent, not Singapore.
 Thal is functional perfusion (thallium tracer uptake), ca is anatomical
-(vessels with significant blockage seen on imaging) — they can disagree, and
+(vessels with significant blockage seen on imaging). They can disagree, and
 the angiogram / target is the gold standard.
 
 ## Method
@@ -92,7 +92,7 @@ The imputer and scaler are fitted on training data only, inside a scikit-learn
 
 ## Results
 
-### Single split — the headline number, and why not to trust it alone
+### Single split
 
 `train.py` — 80/20 stratified split, `random_state=42`, 61 test patients:
 
@@ -108,7 +108,7 @@ The imputer and scaler are fitted on training data only, inside a scikit-learn
 That 0.93 recall looks great — only 2 sick patients missed — but it rests on
 one lucky 61-patient split.
 
-### Cross-validation — the honest estimate
+### Cross-validation
 
 `evaluate_cv.py` — Repeated Stratified 5-fold, 3 repeats (15 folds):
 
@@ -218,9 +218,9 @@ python3 compare_models.py
 streamlit run app.py
 ```
 
-The demo defaults to Patient #1 from the dataset — a worrying-looking
+The demo defaults to Patient #1 from the dataset: a worrying-looking
 false-positive case (typical angina, deep downsloping ST depression, fixed
-thallium defect, but `ca` = 0 and target 0) — so you can see a high probability
+thallium defect, but `ca` = 0 and target 0). So you can see a high probability
 for a patient who was in fact labelled healthy. Patient #2 is the opposite
 risk: a silent high-risk case (`ca` = 3, but a normal thal scan and no pain at
 rest) that a symptoms-only view would miss.
@@ -241,5 +241,4 @@ rest) that a symptoms-only view would miss.
 - Validate the 0.3 threshold with cross-validation, not just one split.
 - Try more data, or a larger, more recent dataset, before claiming anything
   general.
-- Add calibration (do the probabilities mean what they say?) and a proper
-  held-out test set that is never used for tuning.
+- Add calibration and a proper held-out test set that is never used for tuning.
