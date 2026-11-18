@@ -4,6 +4,8 @@ A small, honest machine-learning demo: given a patient's features, predict the
 probability of heart disease, as a proxy for how an emergency department might
 prioritise patients.
 
+*Built as a learning project, with AI pair-programming support.*
+
 Built to learn and to show the full workflow — data, a baseline model, honest
 evaluation, threshold tuning, a model comparison, and an interactive demo —
 not to make clinical decisions.
